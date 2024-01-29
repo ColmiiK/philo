@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/29 15:58:02 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/29 20:26:09 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ typedef	struct s_philo
 	bool			is_eating;
 	int				meals;
 	size_t			last_meal;
-	size_t			die_ms;
-	size_t			eat_ms;
-	size_t			sleep_ms;
 	size_t			start_ms;
 	pthread_mutex_t	*fork_r;
 	pthread_mutex_t	*fork_l;
@@ -40,11 +37,16 @@ typedef	struct s_philo
 typedef struct s_data
 {
 	bool			dead;
+	size_t			die_ms;
+	size_t			eat_ms;
+	size_t			sleep_ms;
+	size_t			total_meals;
 	t_philo			*philo;
 }					t_data;
 
 
 int	ft_isdigit(int c);
+int	ft_atoi(const char *str);
 
 
 # endif

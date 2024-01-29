@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:28:56 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/29 15:35:08 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:00:49 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,37 @@ Monitor:
 Infinite loop until a philosopher dies or they all eat the number of meals indicated in the input, if it's present
 	Check if last_meal > die_ms, if true then set bool dead = true, break the loops and end execution
 	
+	./philo 5 800 200 200 7
 */
+
+int	ft_check_args(char **av)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (av[++i])
+	{
+		j = -1;
+		while (av[i][++j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (1);
+		}
+	}
+	return (0);
+}
 
 int	main(int ac, char **av)
 {
-	
+	// t_data	*data;
+
+	if (ac < 5 || ac > 6)
+		return (printf("Error: incorrect number of arguments\n"));
+	else
+	{
+		if (ft_check_args(av))
+			return (printf("Error: invalid argument(s)\n"));
+		// ft_setup(data);
+	}
 }

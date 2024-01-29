@@ -22,7 +22,7 @@ WHITE = \033[0;97m
 
 #Sources
 	
-SRC_FILES = main
+SRC_FILES = main utils
 
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
@@ -58,5 +58,8 @@ re:			fclean all
 
 norm:
 			@norminette $(SRC) $(B_SRC) $(INCLUDE) $(LIBFT)
+
+test:		$(NAME)
+			@./$(NAME) 5 800 200 200 7
 
 .PHONY: all clean fclean re norm

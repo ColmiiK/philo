@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   not_libft.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:54:59 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/29 20:25:36 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:14:38 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+void	*ft_calloc(size_t n, size_t size)
+{
+	void	*memory;
+
+	memory = (void *)malloc(n * size);
+	if (!memory)
+		return (0);
+	memset(memory, 0, n * size);
+	return (memory);
+}
 
 int	ft_isdigit(int c)
 {

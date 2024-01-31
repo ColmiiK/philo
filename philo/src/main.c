@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:28:56 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/30 13:18:08 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:31:22 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,35 +74,6 @@ Store the info in the struct for later referencing
 
 */
 
-bool	ft_are_args_valid(char **av)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (av[++i])
-	{
-		j = -1;
-		while (av[i][++j])
-		{
-			if (!ft_isdigit(av[i][j]))
-				return (false);
-		}
-	}
-	return (true);
-}
-
-void	ft_setup(t_data *data, char **av)
-{
-	data->die_ms = ft_atoi(av[2]);
-	data->eat_ms = ft_atoi(av[3]);
-	data->sleep_ms = ft_atoi(av[4]);
-	if (av[5])
-		data->total_meals = ft_atoi(av[5]);
-	else
-		data->total_meals = 0;
-}
-
 void	ft_debug(t_data *data)
 {
 	printf("die_ms: %ld\n", data->die_ms);
@@ -115,16 +86,12 @@ int	main(int ac, char **av)
 {
 	t_data	*data;
 
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		return (1);
+	data = NULL;
 	if (ac < 5 || ac > 6)
 		return (printf("Error: incorrect number of arguments\n"));
-	else
-	{
-		if (ft_are_args_valid(av) == false)
-			return (printf("Error: invalid argument(s)\n"));
-		ft_setup(data, av);
-		ft_debug(data);
-	}
+	if (ft_are_args_valid(av))
+		return (printf("Error: invalid argument(s)\n"));
+	ft_philosophers(&data, av);
+	ft_debug(data);
+	ft_annihilation(data);
 }

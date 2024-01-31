@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/29 20:26:09 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/30 20:40:19 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,16 @@ typedef struct s_data
 	t_philo			*philo;
 }					t_data;
 
-
-int	ft_isdigit(int c);
-int	ft_atoi(const char *str);
-
+// Definitely not libft
+int		ft_isdigit(int c);
+int		ft_atoi(const char *str);
+void	*ft_calloc(size_t n, size_t size);
+// Parsing & Setup
+int	ft_are_args_valid(char **av);
+int	ft_setup(t_data *data, char **av);
+// Program
+int ft_philosophers(t_data **data, char **av);
+// Cleanup
+void ft_annihilation(t_data *data);
 
 # endif

@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/30 20:40:19 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:02:36 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define PHILO_H
 
 # include <pthread.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <stdbool.h>
 
-typedef	struct s_philo
+typedef struct s_philo
 {
 	pthread_t		thread;
 	int				id;
@@ -29,8 +29,12 @@ typedef	struct s_philo
 	int				meals;
 	size_t			last_meal;
 	size_t			start_ms;
-	pthread_mutex_t	*fork_r;
-	pthread_mutex_t	*fork_l;
+	bool			dead;
+	pthread_mutex_t	*r_fork_lock;
+	pthread_mutex_t	*l_fork_lock;
+	pthread_mutex_t	*write_lock;
+	pthread_mutex_t	*dead_lock;
+	pthread_mutex_t	*meal_lock;
 
 }					t_philo;
 
@@ -45,15 +49,17 @@ typedef struct s_data
 }					t_data;
 
 // Definitely not libft
-int		ft_isdigit(int c);
-int		ft_atoi(const char *str);
-void	*ft_calloc(size_t n, size_t size);
+int					ft_isdigit(int c);
+int					ft_atoi(const char *str);
+void				*ft_calloc(size_t n, size_t size);
+int					ft_usleep(size_t ms);
 // Parsing & Setup
-int	ft_are_args_valid(char **av);
-int	ft_setup(t_data *data, char **av);
+int					ft_are_args_valid(char **av);
+int					ft_setup_struct(t_data *data, char **av);
+int					ft_setup_mutex(t_data *data, int n_of_philos);
 // Program
-int ft_philosophers(t_data **data, char **av);
+int					ft_philosophers(t_data **data, char **av);
 // Cleanup
-void ft_annihilation(t_data *data);
+void				ft_annihilation(t_data *data);
 
-# endif
+#endif

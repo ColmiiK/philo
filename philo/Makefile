@@ -5,7 +5,7 @@ INCLUDE = include
 SRC_DIR = src/
 OBJ_DIR = obj/
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 AR = ar rcs
 
 # Colors
@@ -22,7 +22,7 @@ WHITE = \033[0;97m
 
 #Sources
 	
-SRC_FILES = main not_libft parsing philosophers cleanup
+SRC_FILES = main not_libft setup philosophers cleanup
 
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

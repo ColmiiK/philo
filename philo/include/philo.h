@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/31 14:02:36 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:33:01 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ typedef struct s_philo
 	int				meals;
 	size_t			last_meal;
 	size_t			start_ms;
-	bool			dead;
-	pthread_mutex_t	*r_fork_lock;
-	pthread_mutex_t	*l_fork_lock;
+	bool			*dead;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
+	pthread_mutex_t	*r_fork_lock;
+	pthread_mutex_t	*l_fork_lock;
+
 
 }					t_philo;
 
@@ -45,6 +46,9 @@ typedef struct s_data
 	size_t			eat_ms;
 	size_t			sleep_ms;
 	size_t			total_meals;
+	pthread_mutex_t	write_lock;
+	pthread_mutex_t	dead_lock;
+	pthread_mutex_t	meal_lock;
 	t_philo			*philo;
 }					t_data;
 

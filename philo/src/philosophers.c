@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/31 16:51:05 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:05:37 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	ft_philosophers(t_data **data, char **av)
 		return (printf("Error: unable to malloc (data)\n"));
 	if (ft_setup_struct(*data, av))
 		return (printf("Error: unable to setup data\n"));
-	if (ft_setup_mutex(*data, ft_atoi(av[1])))
+	if (ft_setup_mutex(*data, (*data)->n_of_philos))
 		return (printf("Error: unable to initialize mutexes\n"));
-	if (ft_threads(*data, ft_atoi(av[1])))
+	if (ft_threads(*data, (*data)->n_of_philos))
 		return (printf("Error: unable to create threads\n"));
 	return (0);
 }

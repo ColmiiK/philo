@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:37:41 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/05 11:49:53 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:28:43 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,13 @@ static int	ft_calloc_mutexes(t_data *data, int n_of_philos)
 		data->philo[i].l_fork_lock = ft_calloc(1, sizeof(pthread_mutex_t));
 		if (!data->philo[i].l_fork_lock)
 			return (1);
+		data->philo[i].r_fork_lock = &data->fork[i];
+		data->philo[i].l_fork_lock = &data->fork[i - 1]; // TODO Which fork goes to which philo
 		data->philo[i].write_lock = &data->write_lock;
 		data->philo[i].dead_lock = &data->dead_lock;
 		data->philo[i].meal_lock = &data->meal_lock;
+		data->philo[i].dead = &data->dead;
+		data->philo[i].id = i;
 	}
 	return (0);
 }
@@ -77,10 +81,6 @@ int	ft_setup_mutex(t_data *data, int n_of_philos)
 	i = -1;
 	while (++i < n_of_philos)
 	{
-		if (pthread_mutex_init(data->philo[i].r_fork_lock, NULL))
-			return (1);
-		if (pthread_mutex_init(data->philo[i].l_fork_lock, NULL))
-			return (1);
 		if (pthread_mutex_init(&data->write_lock, NULL))
 			return (1);
 		if (pthread_mutex_init(&data->dead_lock, NULL))

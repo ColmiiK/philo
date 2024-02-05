@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/05 11:52:27 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:08:19 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ static void	*ft_routine(void *arg)
 	t_philo *philo;
 
 	philo = arg;
-	for (int i = 0; i < 1000000; i++)
+	while (true)
 	{
-		pthread_mutex_lock(philo->write_lock);
-		x++;
-		pthread_mutex_unlock(philo->write_lock);
+		*philo->dead = true;
+		printf("philo %d is doing something\n", philo->id);
+		if (*philo->dead == true)
+			return (0);
 	}
 	return (0);
 }

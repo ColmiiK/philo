@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:37:41 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/31 17:18:05 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:49:53 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	ft_are_args_valid(char **av)
 int	ft_setup_struct(t_data *data, char **av)
 {
 	data->n_of_philos = ft_atoi(av[1]);
+	if (data->n_of_philos > 200 || data->n_of_philos == 0)
+		return (1);
 	data->die_ms = ft_atoi(av[2]);
 	data->eat_ms = ft_atoi(av[3]);
 	data->sleep_ms = ft_atoi(av[4]);

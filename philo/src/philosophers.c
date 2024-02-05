@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/31 17:05:37 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:52:27 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@ int x = 0;
 
 static void	*ft_routine(void *arg)
 {
-	t_data	*data;
+	t_philo *philo;
 
-	data = arg;
+	philo = arg;
 	for (int i = 0; i < 1000000; i++)
 	{
-		pthread_mutex_lock(&data->write_lock);
+		pthread_mutex_lock(philo->write_lock);
 		x++;
-		pthread_mutex_unlock(&data->write_lock);
+		pthread_mutex_unlock(philo->write_lock);
 	}
 	return (0);
 }
@@ -33,7 +33,7 @@ static int	ft_threads(t_data *data, int n_of_philos)
 
 	i = -1;
 	while (++i < n_of_philos)
-		if (pthread_create(&data->philo[i].thread, NULL, &ft_routine, data))
+		if (pthread_create(&data->philo[i].thread, NULL, &ft_routine, &data->philo[i]))
 			return (1);
 	i = -1;
 	while (++i < n_of_philos)

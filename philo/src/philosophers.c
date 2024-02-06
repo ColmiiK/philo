@@ -6,13 +6,21 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/06 16:32:37 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/06 17:35:09 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
-int x = 0;
 
+int x = 0;
+/*
+	Make sure a philo can take both forks
+	Lock the forks so no other philo picks them up
+	Eat for eat_ms, updating the last_meal time and resetting it (?)
+		If unable to eat in meal_ms specified, dead = true
+	Unlock the forks so other philos can pick them up and eat
+	Sleep for sleep_ms
+*/
 static void	*ft_routine(void *arg)
 {
 	t_philo *philo;
@@ -21,12 +29,13 @@ static void	*ft_routine(void *arg)
 
 	// while (*philo->dead == false)
 	// {
+	// 	ft_usleep(1);
 	// 	if (philo->meals_eaten >= philo->n_of_meals || philo->last_meal >= philo->die_ms)
 	// 		*philo->dead = true;
 		
-		
 	// }
-	// printf("philo %d has\n\t-> r_fork %p\n\t-> l_fork %p\n", philo->id, philo->r_fork, philo->l_fork);
+	// printf("philo %d with start time of %zums (current time %zu) has\n\t-> r_fork %p\n\t-> l_fork %p\n", philo->id, philo->start_ms, get_current_time(), philo->r_fork, philo->l_fork);
+	// ft_usleep(1000);
 	// for (int i = 0; i < 1000000; i++){
 	// 	pthread_mutex_lock(philo->write_lock);
 	// 	x++;

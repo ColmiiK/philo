@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:54:59 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/31 13:23:22 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/06 17:18:14 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_atoi(const char *str)
 	return (x * is_negative);
 }
 
-static size_t	get_current_time(void)
+size_t	get_current_time(void)
 {
 	struct timeval	time;
 

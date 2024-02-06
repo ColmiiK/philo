@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/06 13:40:28 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/06 17:18:26 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_data
 int					ft_isdigit(int c);
 int					ft_atoi(const char *str);
 void				*ft_calloc(size_t n, size_t size);
+size_t				get_current_time(void);
 int					ft_usleep(size_t ms);
 // Parsing & Setup
 int					ft_setup_struct(t_data *data, char **av);

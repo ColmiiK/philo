@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/31 17:18:53 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/06 13:40:28 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,26 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				id;
 	bool			is_eating;
-	int				meals;
+	int				meals_eaten;
 	size_t			last_meal;
+	size_t 			die_ms;
+	size_t 			eat_ms;
+	size_t 			sleep_ms;
 	size_t			start_ms;
+	int 			n_of_philos;
+	int 			n_of_meals;
 	bool			*dead;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
 	pthread_mutex_t	*meal_lock;
-	pthread_mutex_t	*r_fork_lock;
-	pthread_mutex_t	*l_fork_lock;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
 
 }					t_philo;
 
 typedef struct s_data
 {
 	bool			dead;
-	size_t			die_ms;
-	size_t			eat_ms;
-	size_t			sleep_ms;
-	size_t			total_meals;
 	int				n_of_philos;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	dead_lock;
@@ -58,9 +59,8 @@ int					ft_atoi(const char *str);
 void				*ft_calloc(size_t n, size_t size);
 int					ft_usleep(size_t ms);
 // Parsing & Setup
-int					ft_are_args_valid(char **av);
 int					ft_setup_struct(t_data *data, char **av);
-int					ft_setup_mutex(t_data *data, int n_of_philos);
+int					ft_setup_mutex(t_data *data, int n_of_philos, pthread_mutex_t *forks);
 // Program
 int					ft_philosophers(t_data **data, char **av);
 // Cleanup

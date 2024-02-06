@@ -6,49 +6,13 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:28:56 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/01/30 22:31:22 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/06 13:41:48 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /* 
-
-Mutex:
-Before each philo can access a lock, pthread_mutex_lock(&mutex) so all other philos have to wait for it
-Once the philo is over using the fork, pthread_mutex_unlock(&mutex) so the other philos can resume eating, assuming they're not dead
-
-Needed data in struct:
-each philo
-typedef struct s_philo
-{
-	pthread_t thread;
-	int		id;
-	bool	is_eating;
-	int		meals;
-	size_t	last_meal;
-	size_t	die_ms;
-	size_t	eat_ms;
-	size_t	sleep_ms;
-	size_t	start_ms;
-	size_t	total_meals;
-	pthread_mutex_t *fork_r;
-	pthread_mutex_t *fork_l;
-	
-	
-	
-}	t_philo
-
-typedef struct s_data
-{
-	bool	dead;
-	t_philo *philo
-	
-}	t_data
-
-Data initialization:
-Store data in struct
-Initialize mutexes
 
 Philo routine:
 When the philosophers are doing a task (eating, sleeping, thinking), print "X is (task)", where X is the number of the philospher
@@ -76,10 +40,28 @@ Store the info in the struct for later referencing
 
 void	ft_debug(t_data *data)
 {
-	printf("die_ms: %ld\n", data->die_ms);
-	printf("eat_ms: %ld\n", data->eat_ms);
-	printf("sleep_ms: %ld\n", data->sleep_ms);
-	printf("total_meals: %ld\n", data->total_meals);
+	printf("die_ms: %ld\n", data->philo[0].die_ms);
+	printf("eat_ms: %ld\n", data->philo[0].eat_ms);
+	printf("sleep_ms: %ld\n", data->philo[0].sleep_ms);
+	printf("total_meals: %d\n", data->philo[0].n_of_meals);
+}
+
+static int	ft_are_args_valid(char **av)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (av[++i])
+	{
+		j = -1;
+		while (av[i][++j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (1);
+		}
+	}
+	return (0);
 }
 
 int	main(int ac, char **av)

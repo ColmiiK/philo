@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/06 17:51:28 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/07 10:49:36 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	ft_threads(t_data *data, int n_of_philos)
 	while (++i < n_of_philos)
 		if (pthread_create(&data->philo[i].thread, NULL, &ft_routine, &data->philo[i])) // One more for monitoring
 			return (1);
+	ft_monitor(data); // Something like this? Does it even work with the threads?w
 	i = -1;
 	while (++i < n_of_philos)
 		if (pthread_join(data->philo[i].thread, NULL))

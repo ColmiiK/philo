@@ -9,7 +9,7 @@ You will see how to create threads and you will discover mutexes.
         <img alt='42 (oscuro)' src='https://img.shields.io/badge/Málaga-black?style=flat&logo=42&logoColor=white'/>
     </a>
     <img src="https://img.shields.io/badge/score- WIP%20%2F%20100-success?color=%2312bab9&style=flat" />
-    <img src="https://wakatime.com/badge/user/018cd069-7ab6-4658-9d62-78d9b3970dd2/project/018d45ac-78b5-473f-a3a8-a29d8650a45a.svg" alt="Tiempo" />
+    <img src="https://wakatime.com/badge/user/018cd069-7ab6-4658-9d62-78d9b3970dd2/project/018d45c2-ef90-4521-a146-62b21e2ddfe5.svg" alt="Tiempo" />
 </div>
 
 # Mandatory part

@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:54:59 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/06 17:18:14 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/07 10:47:24 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ size_t	get_current_time(void)
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		write (STDERR_FILENO, "gettimeofday() erro\n", 22);
+		write (STDERR_FILENO, "gettimeofday() error\n", sizeof(char) * 22);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 

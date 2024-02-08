@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:28:56 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/06 13:41:48 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:28:46 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int	main(int ac, char **av)
 	if (ft_are_args_valid(av))
 		return (printf("Error: invalid argument(s)\n"));
 	ft_philosophers(&data, av);
-	ft_debug(data);
+	// ft_debug(data);
 	ft_annihilation(data);
 }

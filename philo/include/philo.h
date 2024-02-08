@@ -6,12 +6,16 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/06 17:18:26 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:34:12 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# ifndef TIME
+# define TIME get_current_time() - philo->start_ms
+#endif
 
 # include <pthread.h>
 # include <stdbool.h>

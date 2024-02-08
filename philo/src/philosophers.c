@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/08 13:44:33 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/08 16:52:25 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,25 @@ Monitor()
 
 This thread will be running and monitoring the whole program, it has 2 checks in it that run infinitely until a philo dies or they all ate the number of meals they need to (last input argument). Basically, we will check that the time a philo needs to die didn’t surpass the last meal he had and that he is not concurrently eating. If he indeed died we change the dead flag to 1 and that will break the loop in all of the threads. The other check is to see if all the philos finished eating the amount of meals they need to, and if they did we will again change the dead flag to one and break the threads loop.
 */
+
+static int ft_wait(t_philo *philo, size_t ms, size_t meal_start)
+{
+	size_t i;
+
+
+	i = 0;
+	while (i < ms / 10)
+	{
+		ft_usleep(10);
+		philo->last_meal = TIME - meal_start;
+		if (*philo->dead)
+			return (1) ;
+		i++;
+	}
+	return (0);
+}
+
+
 static void ft_eating(t_philo *philo)
 {
 	size_t meal_start;
@@ -44,7 +63,8 @@ static void ft_eating(t_philo *philo)
 	
 	philo->is_eating = true;
 	printf("%zu %d is eating\n", TIME, philo->id);
-	ft_usleep(philo->eat_ms);
+	if (ft_wait(philo, philo->eat_ms, meal_start))
+		return ;
 	philo->is_eating = false;
 	philo->last_meal = TIME - meal_start;
 	philo->meals_eaten++;
@@ -60,23 +80,24 @@ static void	*ft_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (*philo->dead == false)
 	{
+		// if (philo->id % 2 == 0)
+		// 	ft_usleep(1);
 		ft_usleep(philo->id);
-		if (*philo->dead == true)
-			break ;
+
 		ft_eating(philo);
 		if (*philo->dead == true)
-			break ;
-		//sleep
+			return NULL;
+
 		printf("%zu %d is sleeping\n", TIME, philo->id);
 		ft_usleep(philo->sleep_ms);
 		if (*philo->dead == true)
-			break ;
-		//think
+			return NULL;
+
 		printf("%zu %d is thinking\n", TIME, philo->id);
 		if (*philo->dead == true)
-			break ;
+			return NULL;
 	}
-	return (0);
+	return NULL;
 }
 
 static void *ft_monitor(void *arg)
@@ -110,9 +131,15 @@ static int	ft_threads(t_data *data, int n_of_philos)
 	i = -1;
 	while (++i < n_of_philos)
 		if (pthread_create(&data->philo[i].thread, NULL, &ft_routine, &data->philo[i]))
-			return (1);
+			{
+				data->dead = true;
+				return (1);
+			}
 	if (pthread_create(&monitor, NULL, &ft_monitor, data))
+	{
+		data->dead = true;
 		return (1);
+	}
 	if (pthread_join(monitor, NULL))
 		return (1);
 	i = -1;

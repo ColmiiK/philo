@@ -6,59 +6,29 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/08 16:52:25 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:11:10 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 /*
-◦ timestamp_in_ms X has taken a fork
-◦ timestamp_in_ms X is eating
-◦ timestamp_in_ms X is sleeping
-◦ timestamp_in_ms X is thinking
-◦ timestamp_in_ms X died
-
-Philo Routine()
-
-The routine will be the function executed over and over by the philos, Basically ,I created a loop that will break as soon as the dead flag is 1, in other words as soon as a philo is dead. Remember:
-
-The philosophers alternatively eat, sleep, or think. While they are eating, they are not thinking nor sleeping, while thinking, they are not eating nor sleeping, and, of course, while sleeping, they are not eating nor thinking.
-
-So in our loop, they will eat, sleep and think. Let’s start with the easiest one when they think we just need to print a message “X is thinking” (X is the philo number), When they sleep we need to make them sleep the length of the input inserted by the user using our ft_usleep (described in the bottom of this page) and then print the message “X is sleeping”. Now to the eating part, We will lock the right fork first using pthread_mutex_lock and print the message, and do the same with the left fork. Then he will eat using ft_usleep again and only then he will drop the forks by unlocking the locks, before that we change some variables that give our monitor indications but that’s the general idea.
-
-Monitor()
-
-This thread will be running and monitoring the whole program, it has 2 checks in it that run infinitely until a philo dies or they all ate the number of meals they need to (last input argument). Basically, we will check that the time a philo needs to die didn’t surpass the last meal he had and that he is not concurrently eating. If he indeed died we change the dead flag to 1 and that will break the loop in all of the threads. The other check is to see if all the philos finished eating the amount of meals they need to, and if they did we will again change the dead flag to one and break the threads loop.
-*/
-
-static int ft_wait(t_philo *philo, size_t ms, size_t meal_start)
-{
-	size_t i;
-
-
-	i = 0;
-	while (i < ms / 10)
-	{
-		ft_usleep(10);
-		philo->last_meal = TIME - meal_start;
-		if (*philo->dead)
-			return (1) ;
-		i++;
-	}
-	return (0);
-}
-
-
 static void ft_eating(t_philo *philo)
 {
 	size_t meal_start;
 	
 	meal_start = TIME;
-	pthread_mutex_lock(philo->r_fork);
-	printf("%zu %d has taken a fork\n", TIME, philo->id);
-	if (philo->l_fork == NULL)
-		return ;
-	pthread_mutex_lock(philo->l_fork);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->r_fork);
+		printf("%zu %d has taken a fork\n", TIME, philo->id);
+		pthread_mutex_lock(philo->l_fork);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->l_fork);
+		printf("%zu %d has taken a fork\n", TIME, philo->id);
+		pthread_mutex_lock(philo->r_fork);
+	}
 	printf("%zu %d has taken a fork\n", TIME, philo->id);
 	
 	philo->is_eating = true;
@@ -80,10 +50,6 @@ static void	*ft_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (*philo->dead == false)
 	{
-		// if (philo->id % 2 == 0)
-		// 	ft_usleep(1);
-		ft_usleep(philo->id);
-
 		ft_eating(philo);
 		if (*philo->dead == true)
 			return NULL;
@@ -99,6 +65,116 @@ static void	*ft_routine(void *arg)
 	}
 	return NULL;
 }
+◦ timestamp_in_ms X has taken a fork
+◦ timestamp_in_ms X is eating
+◦ timestamp_in_ms X is sleeping
+◦ timestamp_in_ms X is thinking
+◦ timestamp_in_ms X died
+
+Philo Routine()
+
+The routine will be the function executed over and over by the philos, Basically ,I created a loop that will break as soon as the dead flag is 1, in other words as soon as a philo is dead. Remember:
+
+The philosophers alternatively eat, sleep, or think. While they are eating, they are not thinking nor sleeping, while thinking, they are not eating nor sleeping, and, of course, while sleeping, they are not eating nor thinking.
+
+So in our loop, they will eat, sleep and think. Let’s start with the easiest one when they think we just need to print a message “X is thinking” (X is the philo number), When they sleep we need to make them sleep the length of the input inserted by the user using our ft_usleep (described in the bottom of this page) and then print the message “X is sleeping”. Now to the eating part, We will lock the right fork first using pthread_mutex_lock and print the message, and do the same with the left fork. Then he will eat using ft_usleep again and only then he will drop the forks by unlocking the locks, before that we change some variables that give our monitor indications but that’s the general idea.
+
+Monitor()
+
+This thread will be running and monitoring the whole program, it has 2 checks in it that run infinitely until a philo dies or they all ate the number of meals they need to (last input argument). Basically, we will check that the time a philo needs to die didn’t surpass the last meal he had and that he is not concurrently eating. If he indeed died we change the dead flag to 1 and that will break the loop in all of the threads. The other check is to see if all the philos finished eating the amount of meals they need to, and if they did we will again change the dead flag to one and break the threads loop.
+*/
+
+static void ft_wait(t_philo *philo, size_t ms, size_t die_ms)
+{
+	size_t i;
+	size_t increment;
+
+	
+	i = 0;
+	if (ms < 10)
+		increment = 1;
+	else
+		increment = 10;
+	while (i < ms)
+	{
+		// printf("i -> %zu\n", i);
+		if (i >= die_ms)
+			*philo->dead = true;
+		if (*philo->dead == true)
+			return ;
+		ft_usleep(increment);
+		i += increment;
+	}
+	return ;
+}
+
+
+static void ft_eat(t_philo *philo)
+{
+	size_t meal_start;
+	
+	meal_start = TIME;
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->r_fork);
+		printf("%zu %d has taken a fork\n", TIME, philo->id);
+		pthread_mutex_lock(philo->l_fork);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->l_fork);
+		printf("%zu %d has taken a fork\n", TIME, philo->id);
+		pthread_mutex_lock(philo->r_fork);
+	}
+	printf("%zu %d has taken a fork\n", TIME, philo->id);
+
+	printf("%zu %d is eating\n", TIME, philo->id);
+	ft_wait(philo, philo->eat_ms, philo->die_ms);
+	
+	// printf("time -> %zu\tmeal_start -> %zu\tdie_ms -> %zu\ntime - meal_start -> %zu\n", TIME, meal_start, philo->die_ms, TIME - meal_start);
+	if (TIME - meal_start >= philo->die_ms)
+	{
+		*philo->dead = true;
+		return ;
+	}
+	philo->meals_eaten++;
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
+}
+
+static void ft_sleep(t_philo *philo)
+{
+	printf("%zu %d is sleeping\n", TIME, philo->id);
+	ft_wait(philo, philo->sleep_ms, philo->die_ms);
+}
+
+static void ft_think(t_philo *philo)
+{
+	printf("%zu %d is thinking\n", TIME, philo->id);
+}
+
+static void	*ft_routine(void *arg)
+{
+	t_philo *philo;
+
+	philo = (t_philo *)arg;
+	while (*philo->dead == false)
+	{
+		ft_eat(philo);
+		
+		if (*philo->dead == true)
+			return (NULL);
+		
+		ft_sleep(philo);
+		
+		if (*philo->dead == true)
+			return (NULL);
+		
+		ft_think(philo);
+	}
+	return (NULL);
+	
+}
 
 static void *ft_monitor(void *arg)
 {
@@ -111,16 +187,19 @@ static void *ft_monitor(void *arg)
 		i = -1;
 		while (++i < data->n_of_philos)
 		{
-			if (data->philo[i].is_eating == false && data->philo[i].last_meal > data->philo[i].die_ms)
+			if (data->dead == true)
+			{
+				printf("%zu %d died\n", get_current_time() - data->philo[i].start_ms, data->philo[i].id);
+				return (NULL);
+			}
+			if (data->philo[i].meals_eaten >= data->philo[i].n_of_meals)
 			{
 				data->dead = true;
-				printf("%zu %d died\n", get_current_time() - data->philo[i].start_ms, data->philo[i].id);
+				return (NULL);
 			}
-			if (data->philo[i].meals_eaten == data->philo[i].n_of_meals)
-				data->dead = true;
 		}
 	}
-	return (0);
+	return (NULL);
 }
 
 static int	ft_threads(t_data *data, int n_of_philos)

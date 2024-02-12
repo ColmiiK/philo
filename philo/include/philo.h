@@ -6,16 +6,20 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/12 13:47:00 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/12 16:46:55 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# ifndef TIME
-# define TIME get_current_time() - philo->start_ms
-#endif
+# define TIME get_current_time() - (philo)->start_ms
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define BLUE "\033[0;34m"
+#define MAGENTA "\033[0;35m"
+#define RESET "\033[0m"
 
 # include <pthread.h>
 # include <stdbool.h>
@@ -37,6 +41,7 @@ typedef struct s_philo
 	size_t 			eat_ms;
 	size_t 			sleep_ms;
 	size_t			start_ms;
+	size_t			meal_duration;
 	int 			n_of_philos;
 	int 			n_of_meals;
 	bool			*dead;

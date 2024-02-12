@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:37:41 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/09 11:40:29 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:22:04 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_setup_struct(t_data *data, char **av)
 		data->philo[i].meals_eaten = 0;
 		data->philo[i].start_ms = get_current_time();
 		data->philo[i].last_meal = 0;
+		data->philo[i].time = 0;
 		data->philo[i].is_eating = false;
 		if (av[5])
 			data->philo[i].n_of_meals = ft_atoi(av[5]);

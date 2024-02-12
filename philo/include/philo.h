@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/08 12:34:12 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/12 13:47:00 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 	bool			is_eating;
 	int				meals_eaten;
 	size_t			last_meal;
+	size_t			time;
 	size_t 			die_ms;
 	size_t 			eat_ms;
 	size_t 			sleep_ms;

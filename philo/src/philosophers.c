@@ -6,16 +6,24 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/12 16:51:00 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:00:23 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 /*
+	// printf("\tid %d time (eat) -> %zu\n", philo->id, philo->meal_duration);
+	// if (philo->meal_duration > philo->die_ms && *philo->dead == false)
+	// {
+	// 	*philo->dead = true;
+	// 	printf("meal duration -> %zu\ttime -> %zu\n", philo->meal_duration, philo->time);
+	// 	printf("id %d time on eat -> %zu\n", philo->id, philo->time + philo->meal_duration);
+	// 	printf(DEAD_MSG);
+	// }
 	Codequi for tests
 	printf macros for colored text
-# define FORK_MSG(time, id) "\033[0;33m" time " " id " has taken a fork\n\033[0m"
+
 */
 
 static void ft_printf_alive(t_philo *philo, char code)
@@ -23,9 +31,9 @@ static void ft_printf_alive(t_philo *philo, char code)
 	if (*philo->dead == false)
 	{
 		if (code == 'f')
-			printf("%s%zu %d has taken a fork\n%s", YELLOW, TIME, philo->id, RESET);
+			printf(FORK_MSG);
 		if (code == 'e')
-			printf("%s%zu %d is eating\n%s", GREEN, TIME, philo->id, RESET);
+			printf(EAT_MSG);
 	}
 }
 
@@ -44,7 +52,7 @@ static void ft_wait(t_philo *philo,size_t start, size_t ms)
 		if (duration > philo->die_ms && *philo->dead == false)
 		{
 			*philo->dead = true;
-			printf("%s%zu %d died\n%s", RED, TIME, philo->id, RESET);
+			printf(DEAD_MSG);
 			return ;
 		}
 	}
@@ -60,7 +68,7 @@ static void ft_take_forks(t_philo *philo)
 		ft_printf_alive(philo, 'f');
 		if (philo->r_fork == philo->l_fork)
 		{
-			printf("%s%zu %d died\n%s", RED, TIME, philo->id, RESET);
+			printf(DEAD_MSG);
 			*philo->dead = true;
 			return ;
 		}
@@ -73,34 +81,23 @@ static void ft_take_forks(t_philo *philo)
 		pthread_mutex_lock(philo->r_fork);
 	}
 	ft_printf_alive(philo, 'f');
-	philo->time = TIME - philo->time;
-	printf("time -> %zu\n", philo->time);
-	if (philo->time > philo->die_ms && *philo->dead == false)
+	philo->meal_duration = TIME - philo->time;
+	printf("%d took %zums to pick up forks\t", philo->id, TIME - philo->time);
+	printf("(%zu = %zu - %zu)\n", philo->meal_duration, TIME, philo->time);
+	if (philo->meal_duration + philo->eat_ms > philo->die_ms && *philo->dead == false)
 	{
 		*philo->dead = true;
-		printf("time on forks ->%zu\n", philo->time);
-		printf("%s%zu %d died\n%s", RED, TIME, philo->id, RESET);
+		printf(DEAD_MSG);
 	}
 }
 
 static void ft_eat(t_philo *philo)
 {
-	size_t meal_start;
-
-	meal_start = TIME;
 	ft_printf_alive(philo, 'e');
-	ft_wait(philo, meal_start, philo->eat_ms);
+	ft_wait(philo, TIME, philo->eat_ms);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(philo->l_fork);
-	philo->meal_duration = TIME - meal_start;
-	if (philo->meal_duration + philo->time > philo->die_ms && *philo->dead == false)
-	{
-		*philo->dead = true;
-		printf("meal duration -> %zu\ttime -> %zu\n", philo->meal_duration, philo->time);
-		printf("time on eat ->%zu\n", philo->time + philo->meal_duration);
-		printf("%s%zu %d died\n%s", RED, TIME, philo->id, RESET);
-	}
 } 
 
 static void	*ft_routine(void *arg)
@@ -109,6 +106,8 @@ static void	*ft_routine(void *arg)
 	size_t sleep_start;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		ft_usleep(1);
 	while (*philo->dead == false)
 	{
 		ft_take_forks(philo);
@@ -116,11 +115,11 @@ static void	*ft_routine(void *arg)
 		if (*philo->dead == true)
 			return (NULL);
 		sleep_start = TIME;
-		printf("%s%zu %d is sleeping\n%s", MAGENTA, TIME, philo->id, RESET);
+		printf(SLEEP_MSG);
 		ft_wait(philo, sleep_start, philo->sleep_ms);
 		if (*philo->dead == true)
 			return (NULL);
-		printf("%s%zu %d is thinking\n%s", BLUE, TIME, philo->id, RESET);
+		printf(THINK_MSG);
 	}
 	return (NULL);
 	
@@ -138,10 +137,7 @@ static void *ft_monitor(void *arg)
 		while (++i < data->n_of_philos)
 		{
 			if (data->dead == true)
-			{
-				// printf("%s%zu %d died\n%s", RED, get_current_time()- data->philo[i].start_ms, data->philo[i].id, RESET);
 				return (NULL);
-			}
 			if (data->philo[i].n_of_meals == -1)
 				;
 			else if (data->philo[i].meals_eaten >= data->philo[i].n_of_meals)

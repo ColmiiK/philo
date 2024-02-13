@@ -6,21 +6,18 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/13 12:20:54 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:47:23 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-// Macro to get current time since the start of the execution
-# define TIME get_current_time() - (philo)->start_ms
-// Message macros
-# define DEAD_MSG "\033[0;31m%zu %d died\n\033[0m", TIME, philo->id
-# define FORK_MSG "\033[0;33m%zu %d has taken a fork\n\033[0m", TIME, philo->id
-# define EAT_MSG "\033[0;32m%zu %d is eating\n\033[0m", TIME, philo->id
-# define THINK_MSG "\033[0;34m%zu %d is thinking\n\033[0m", TIME, philo->id
-# define SLEEP_MSG "\033[0;35m%zu %d is sleeping\n\033[0m", TIME, philo->id
+# define DEAD_MSG "\033[0;31m%zu %d died\n\033[0m"
+# define FORK_MSG "\033[0;33m%zu %d has taken a fork\n\033[0m"
+# define EAT_MSG "\033[0;32m%zu %d is eating\n\033[0m"
+# define THNK_MSG "\033[0;34m%zu %d is thinking\n\033[0m"
+# define SLP_MSG "\033[0;35m%zu %d is sleeping\n\033[0m"
 
 # include <pthread.h>
 # include <stdbool.h>
@@ -34,17 +31,15 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	int				id;
-	bool			is_eating;
 	int				meals_eaten;
-	size_t			last_meal;
 	size_t			time;
-	size_t 			die_ms;
-	size_t 			eat_ms;
-	size_t 			sleep_ms;
+	size_t			die_ms;
+	size_t			eat_ms;
+	size_t			sleep_ms;
 	size_t			start_ms;
 	size_t			meal_duration;
-	int 			n_of_philos;
-	int 			n_of_meals;
+	int				n_of_philos;
+	int				n_of_meals;
 	bool			*dead;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*dead_lock;
@@ -70,9 +65,12 @@ int					ft_atoi(const char *str);
 void				*ft_calloc(size_t n, size_t size);
 size_t				get_current_time(void);
 int					ft_usleep(size_t ms);
+void				ft_printf_alive(t_philo *philo, char code);
+void				ft_wait(t_philo *philo, size_t start, size_t ms);
 // Parsing & Setup
 int					ft_setup_struct(t_data *data, char **av);
-int					ft_setup_mutex(t_data *data, int n_of_philos, pthread_mutex_t *forks);
+int					ft_setup_mutex(t_data *data, int n_of_philos,
+						pthread_mutex_t *forks);
 // Program
 int					ft_philosophers(t_data **data, char **av);
 // Cleanup

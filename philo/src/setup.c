@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:37:41 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/12 13:22:04 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:09:17 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_setup_struct(t_data *data, char **av)
 {
-	int i;
+	int	i;
 
 	data->n_of_philos = ft_atoi(av[1]);
 	if (data->n_of_philos > 200 || data->n_of_philos == 0)
@@ -26,15 +26,13 @@ int	ft_setup_struct(t_data *data, char **av)
 	data->dead = false;
 	while (++i < data->n_of_philos)
 	{
-		data->philo[i].start_ms = i + 1; 
+		data->philo[i].start_ms = i + 1;
 		data->philo[i].die_ms = ft_atoi(av[2]);
 		data->philo[i].eat_ms = ft_atoi(av[3]);
 		data->philo[i].sleep_ms = ft_atoi(av[4]);
 		data->philo[i].meals_eaten = 0;
 		data->philo[i].start_ms = get_current_time();
-		data->philo[i].last_meal = 0;
 		data->philo[i].time = 0;
-		data->philo[i].is_eating = false;
 		if (av[5])
 			data->philo[i].n_of_meals = ft_atoi(av[5]);
 		else
@@ -44,7 +42,7 @@ int	ft_setup_struct(t_data *data, char **av)
 }
 
 static int	ft_calloc_mutexes(t_data *data, int n_of_philos,
-	pthread_mutex_t *forks)
+		pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -71,15 +69,15 @@ int	ft_setup_mutex(t_data *data, int n_of_philos, pthread_mutex_t *forks)
 
 	i = -1;
 	while (++i < data->n_of_philos)
-		if (pthread_mutex_init(&forks[i], NULL))
+		if (pthread_mutex_init(&forks[i], PTHREAD_MUTEX_NORMAL))
 			return (1);
 	if (ft_calloc_mutexes(data, n_of_philos, forks))
 		return (1);
-	if (pthread_mutex_init(&data->write_lock, NULL))
+	if (pthread_mutex_init(&data->write_lock, PTHREAD_MUTEX_NORMAL))
 		return (1);
-	if (pthread_mutex_init(&data->dead_lock, NULL))
+	if (pthread_mutex_init(&data->dead_lock, PTHREAD_MUTEX_NORMAL))
 		return (1);
-	if (pthread_mutex_init(&data->meal_lock, NULL))
+	if (pthread_mutex_init(&data->meal_lock, PTHREAD_MUTEX_NORMAL))
 		return (1);
 	return (0);
 }

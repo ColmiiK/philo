@@ -6,12 +6,20 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/13 17:46:14 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/14 11:35:54 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+/*
+All philos should eat n_of_meals times when specified, not just one philo
 
+Failed tests:
+./philo 4 2147483648 200 200 (INT_MAX and INT_MIN)
+./philo 4 200 2147483647 200
+	Expected output: A philosopher dies at 200 ms.
+
+*/
 static void	ft_eat(t_philo *philo)
 {
 	philo->time = get_current_time() - (philo)->start_ms;
@@ -68,7 +76,7 @@ static void	*ft_monitor(void *arg)
 				data->dead = true;
 			if (data->philo[i].n_of_meals == -1)
 				;
-			else if (data->philo[i].meals_eaten >= data->philo[i].n_of_meals)
+			else if (data->philo[i].meals_eaten >= data->philo[i].n_of_meals) // ALL philos need to eat this amount for the program to finish, not just one
 			{
 				data->dead = true;
 				return (NULL);

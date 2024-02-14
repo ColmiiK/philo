@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:37:41 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/13 17:09:17 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:46:31 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_setup_struct(t_data *data, char **av)
 {
 	int	i;
 
-	data->n_of_philos = ft_atoi(av[1]);
+	data->n_of_philos = ft_atol(av[1]);
 	if (data->n_of_philos > 200 || data->n_of_philos == 0)
 		return (1);
 	data->philo = (t_philo *)ft_calloc(data->n_of_philos, sizeof(t_philo));
@@ -27,14 +27,14 @@ int	ft_setup_struct(t_data *data, char **av)
 	while (++i < data->n_of_philos)
 	{
 		data->philo[i].start_ms = i + 1;
-		data->philo[i].die_ms = ft_atoi(av[2]);
-		data->philo[i].eat_ms = ft_atoi(av[3]);
-		data->philo[i].sleep_ms = ft_atoi(av[4]);
+		data->philo[i].die_ms = ft_atol(av[2]);
+		data->philo[i].eat_ms = ft_atol(av[3]);
+		data->philo[i].sleep_ms = ft_atol(av[4]);
 		data->philo[i].meals_eaten = 0;
 		data->philo[i].start_ms = get_current_time();
 		data->philo[i].time = 0;
 		if (av[5])
-			data->philo[i].n_of_meals = ft_atoi(av[5]);
+			data->philo[i].n_of_meals = ft_atol(av[5]);
 		else
 			data->philo[i].n_of_meals = -1;
 	}
@@ -79,5 +79,25 @@ int	ft_setup_mutex(t_data *data, int n_of_philos, pthread_mutex_t *forks)
 		return (1);
 	if (pthread_mutex_init(&data->meal_lock, PTHREAD_MUTEX_NORMAL))
 		return (1);
+	return (0);
+}
+
+int	ft_are_args_valid(char **av)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (av[++i])
+	{
+		j = -1;
+		while (av[i][++j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (1);
+		}
+		if (ft_atol(av[i]) > INT_MAX || ft_atol(av[i]) < INT_MIN)
+			return (1);
+	}
 	return (0);
 }

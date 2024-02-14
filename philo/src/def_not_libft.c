@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:45:22 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/13 17:47:01 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:29:19 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,17 @@ int	ft_usleep(size_t ms)
 	while ((get_current_time() - start) < ms)
 		usleep(500);
 	return (0);
+}
+
+bool	ft_is_meal_done(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->n_of_philos)
+	{
+		if (data->philo[i].meals_eaten < data->philo[i].n_of_meals)
+			return (false);
+	}
+	return (true);
 }

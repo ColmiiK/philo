@@ -22,7 +22,7 @@ WHITE = $(shell tput setaf 7)
 
 #Sources
 	
-SRC_FILES = main not_libft def_not_libft setup philosophers cleanup
+SRC_FILES = main not_libft def_not_libft setup threads routines cleanup 
 
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

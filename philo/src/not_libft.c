@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:54:59 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/13 17:47:15 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:07:14 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	ft_isdigit(int c)
 		return (1);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
-	int	i;
-	int	x;
-	int	is_negative;
+	long	i;
+	long	x;
+	int		is_negative;
 
 	i = 0;
 	x = 0;

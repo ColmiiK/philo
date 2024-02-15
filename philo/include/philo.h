@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/14 15:46:45 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:48:34 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int					ft_usleep(size_t ms);
 void				ft_printf_alive(t_philo *philo, char code);
 void				ft_wait(t_philo *philo, size_t start, size_t ms);
 bool				ft_is_meal_done(t_data *data);
+int					ft_flag_check(t_philo *philo);
+void				ft_flag_change(t_data *data);
 // Parsing & Setup
 int					ft_are_args_valid(char **av);
 int					ft_setup_struct(t_data *data, char **av);

@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:45:22 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/14 15:29:19 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:46:21 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_printf_alive(t_philo *philo, char code)
 {
+	pthread_mutex_lock(philo->dead_lock);
 	pthread_mutex_lock(philo->write_lock);
 	if (*philo->dead == false)
 	{
@@ -29,6 +30,7 @@ void	ft_printf_alive(t_philo *philo, char code)
 	if (code == 'd')
 		printf(DEAD_MSG, get_current_time() - (philo)->start_ms, philo->id);
 	pthread_mutex_unlock(philo->write_lock);
+	pthread_mutex_unlock(philo->dead_lock);
 }
 
 void	ft_wait(t_philo *philo, size_t start, size_t ms)
@@ -38,8 +40,15 @@ void	ft_wait(t_philo *philo, size_t start, size_t ms)
 
 	end = get_current_time() - (philo)->start_ms;
 	duration = end - start;
-	while (duration < ms && *philo->dead == false)
+	while (duration < ms)
 	{
+		pthread_mutex_lock(philo->dead_lock);
+		if (*philo->dead == true)
+		{
+			pthread_mutex_unlock(philo->dead_lock);
+			return ;
+		}
+		pthread_mutex_unlock(philo->dead_lock);
 		ft_usleep(1);
 		end = get_current_time() - (philo)->start_ms;
 		duration = end - start;

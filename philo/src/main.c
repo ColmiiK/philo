@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:28:56 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/14 15:50:31 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:48:50 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int ac, char **av)
 	t_data	*data;
 
 	data = NULL;
-	atexit(leaks);
+	// atexit(leaks);
 	if (ac < 5 || ac > 6)
 		return (printf("Error: incorrect number of arguments\n"));
 	if (ft_are_args_valid(av))

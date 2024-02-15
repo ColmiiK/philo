@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:38:21 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/14 15:49:45 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:49:36 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,19 @@ static int	ft_threads(t_data *data, int n_of_philos)
 
 	i = -1;
 	while (++i < n_of_philos)
+	{
 		if (pthread_create(&data->philo[i].thread, NULL,
 				&ft_philos, &data->philo[i]))
+		{
 			data->dead = true;
+			break ;
+		}
+	}
 	if (pthread_create(&monitor, NULL, &ft_monitor, data))
 		data->dead = true;
 	if (pthread_join(monitor, NULL))
 		return (1);
-	i = -1;
-	while (++i < n_of_philos)
+	while (--i >= 0)
 		if (pthread_join(data->philo[i].thread, NULL))
 			return (1);
 	return (0);

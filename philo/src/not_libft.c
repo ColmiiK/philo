@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:54:59 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/14 15:07:14 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:48:06 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,23 @@ long	ft_atol(const char *str)
 		i++;
 	}
 	return (x * is_negative);
+}
+
+int	ft_flag_check(t_philo *philo)
+{
+	pthread_mutex_lock(philo->dead_lock);
+	if (*philo->dead == true)
+	{
+		pthread_mutex_unlock(philo->dead_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->dead_lock);
+	return (0);
+}
+
+void	ft_flag_change(t_data *data)
+{
+	pthread_mutex_lock(&data->dead_lock);
+	data->dead = true;
+	pthread_mutex_unlock(&data->dead_lock);
 }

@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 12:59:28 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/15 13:48:34 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:49:03 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void				*ft_calloc(size_t n, size_t size);
 size_t				get_current_time(void);
 int					ft_usleep(size_t ms);
 void				ft_printf_alive(t_philo *philo, char code);
-void				ft_wait(t_philo *philo, size_t start, size_t ms);
+int					ft_wait(t_philo *philo, size_t start, size_t ms);
 bool				ft_is_meal_done(t_data *data);
 int					ft_flag_check(t_philo *philo);
 void				ft_flag_change(t_data *data);
@@ -80,6 +80,8 @@ int					ft_setup_mutex(t_data *data, int n_of_philos,
 int					ft_initialization(t_data **data, char **av);
 void				*ft_philos(void *arg);
 void				*ft_monitor(void *arg);
+int					ft_edge_case_fork(t_data *data, int i);
+int					ft_edge_case_dead(t_data *data, int i);
 // Cleanup
 void				ft_annihilation(t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:42:14 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/15 13:47:34 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:47:36 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,16 @@ void	*ft_philos(void *arg)
 
 static int	ft_monitor_ifs(t_data *data, int i)
 {
-	if (data->philo[i].r_fork == data->philo[i].l_fork)
-		data->dead = true;
+	if (ft_edge_case_fork(data, i))
+		return (1);
 	pthread_mutex_lock(&data->meal_lock);
 	if (data->philo[i].meal_duration + data->philo[i].eat_ms
 		> data->philo[i].die_ms)
+	{
 		ft_flag_change(data);
+		ft_usleep(data->philo[i].die_ms
+			- (get_current_time() - data->philo[i].start_ms));
+	}
 	if (data->philo[i].n_of_meals == -1)
 		;
 	else if (ft_is_meal_done(data))
@@ -74,12 +78,8 @@ static int	ft_monitor_ifs(t_data *data, int i)
 		return (1);
 	}
 	pthread_mutex_unlock(&data->meal_lock);
-	if (data->dead == true)
-	{
-		ft_usleep(2);
-		ft_printf_alive(&data->philo[i], 'd');
+	if (ft_edge_case_dead(data, i))
 		return (1);
-	}
 	return (0);
 }
 
@@ -89,8 +89,15 @@ void	*ft_monitor(void *arg)
 	int		i;
 
 	data = (t_data *)arg;
-	while (data->dead == false)
+	while (true)
 	{
+		pthread_mutex_lock(&data->dead_lock);
+		if (data->dead == true)
+		{
+			pthread_mutex_unlock(&data->dead_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&data->dead_lock);
 		i = -1;
 		while (++i < data->n_of_philos)
 			if (ft_monitor_ifs(data, i))

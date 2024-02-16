@@ -6,7 +6,7 @@
 /*   By: alvega-g <alvega-g@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:45:22 by alvega-g          #+#    #+#             */
-/*   Updated: 2024/02/15 13:46:21 by alvega-g         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:40:21 by alvega-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,31 @@ void	ft_printf_alive(t_philo *philo, char code)
 	pthread_mutex_unlock(philo->dead_lock);
 }
 
-void	ft_wait(t_philo *philo, size_t start, size_t ms)
+int	ft_wait(t_philo *philo, size_t start, size_t ms)
 {
 	size_t	end;
 	size_t	duration;
 
 	end = get_current_time() - (philo)->start_ms;
 	duration = end - start;
-	while (duration < ms)
+	while (duration <= ms)
 	{
 		pthread_mutex_lock(philo->dead_lock);
 		if (*philo->dead == true)
-		{
-			pthread_mutex_unlock(philo->dead_lock);
-			return ;
-		}
+			return (pthread_mutex_unlock(philo->dead_lock));
 		pthread_mutex_unlock(philo->dead_lock);
 		ft_usleep(1);
 		end = get_current_time() - (philo)->start_ms;
 		duration = end - start;
+		pthread_mutex_lock(philo->dead_lock);
 		if (duration > philo->die_ms && *philo->dead == false)
 		{
 			*philo->dead = true;
-			return ;
+			return (pthread_mutex_unlock(philo->dead_lock));
 		}
+		pthread_mutex_unlock(philo->dead_lock);
 	}
-	return ;
+	return (0);
 }
 
 size_t	get_current_time(void)
